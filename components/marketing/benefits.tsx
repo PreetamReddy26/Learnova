@@ -8,8 +8,8 @@ const AUDIENCES = [
     title: "For students",
     points: [
       "Answers in the learning style that works for you",
-      "A study plan that adjusts to your exams and weak spots",
-      "Practice that feels like your actual exam, not a generic quiz",
+      "A study plan that points you at your weakest subject",
+      "Practice questions shaped around your board and grade",
     ],
   },
   {
@@ -17,8 +17,8 @@ const AUDIENCES = [
     title: "For parents",
     points: [
       "Clear visibility into study hours and progress",
-      "Weekly reports without needing to ask your child",
-      "AI insights that flag subjects that need attention early",
+      "Progress reports without needing to ask your child",
+      "A clear flag on the subject that needs attention",
     ],
   },
   {
@@ -26,7 +26,7 @@ const AUDIENCES = [
     title: "For teachers",
     points: [
       "Class-wide analytics on where students are struggling",
-      "Assignment and quiz creation in minutes, not hours",
+      "Class codes and assignments set up in minutes, not hours",
       "A tool that reinforces your lessons instead of replacing them",
     ],
   },

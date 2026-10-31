@@ -10,15 +10,15 @@ const PILLARS = [
   },
   {
     icon: ShieldCheck,
-    title: "Curriculum experts review every model",
+    title: "Honest about what AI can do",
     description:
-      "Subject-matter experts for each board check how the AI answers, not just whether it's correct — so explanations match how your syllabus expects you to think and write.",
+      "Every AI answer is labelled as AI-generated, and anything needing a teacher's judgement is pointed back to a teacher or trusted adult.",
   },
   {
     icon: RefreshCw,
-    title: "Updated on every syllabus revision",
+    title: "Built around real classrooms",
     description:
-      "When a board revises its syllabus, Learnova's content is re-validated against the new requirements before students see it.",
+      "Teachers get class rosters and assignments, and parents get progress reports, so everyone sees the same picture of how a student is doing.",
   },
 ]
 

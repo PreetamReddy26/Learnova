@@ -1,9 +1,7 @@
-// Illustrative placeholder figures for the pre-launch build — replace with
-// real product analytics once Learnova has usage data.
 const STATS = [
   { value: "5", label: "Curricula supported" },
-  { value: "100%", label: "Answers reviewed against syllabus" },
-  { value: "24/7", label: "Availability for doubt-solving" },
+  { value: "2", label: "Quiz formats: multiple choice and written" },
+  { value: "3", label: "Role-based dashboards" },
   { value: "0", label: "Teachers replaced" },
 ]
 

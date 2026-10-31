@@ -10,17 +10,17 @@ const STEPS = [
   {
     icon: CalendarClock,
     title: "Plan",
-    description: "Get a study schedule built around your exams and weak spots.",
+    description: "Get a suggested study plan around your weakest subject.",
   },
   {
     icon: ClipboardCheck,
     title: "Practice",
-    description: "Take adaptive quizzes that match your board's question style.",
+    description: "Take AI-generated quizzes tuned to your board and grade.",
   },
   {
     icon: LineChart,
     title: "Track",
-    description: "See exactly where you improved, and what to revise next.",
+    description: "See how your scores are trending and which subject needs work.",
   },
 ]
 
@@ -30,7 +30,7 @@ export function ProductOverview() {
       <SectionHeading
         eyebrow="How it works"
         title="One companion, the whole learning loop"
-        description="Learnova connects the four things a student actually needs between classes: help understanding, a plan to follow, practice that adapts, and proof of progress."
+        description="Learnova connects the four things a student actually needs between classes: help understanding, a plan to follow, practice questions, and proof of progress."
       />
       <div className="grid w-full max-w-4xl grid-cols-2 gap-8 sm:grid-cols-4">
         {STEPS.map(({ icon: Icon, title, description }, index) => (

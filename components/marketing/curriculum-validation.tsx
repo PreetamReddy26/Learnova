@@ -7,9 +7,9 @@ export function CurriculumValidation() {
   return (
     <section className="flex flex-col items-center gap-8 bg-muted/40 px-6 py-20 sm:px-10">
       <SectionHeading
-        eyebrow="Curriculum accuracy"
-        title="Every answer is checked against your actual syllabus"
-        description="Learnova doesn't answer questions the way a generic model would. Each supported board has its own curated knowledge base, reviewed by subject-matter experts for that board, so explanations match expected structure, depth, and terminology."
+        eyebrow="Curriculum-aware"
+        title="Answers shaped around your board and grade"
+        description="Learnova tailors explanations and practice questions to the curriculum, grade and learning style you choose. It is AI-generated, so it can make mistakes: always confirm important answers with your teacher or textbook."
       />
       <div className="flex flex-wrap items-center justify-center gap-3">
         {CURRICULA.map((name) => (

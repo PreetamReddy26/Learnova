@@ -15,15 +15,15 @@ export function Hero() {
       </FadeIn>
       <FadeIn delay={0.1}>
         <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-balance text-foreground sm:text-6xl">
-          The AI study partner that speaks your board&apos;s exact syllabus
+          The AI study partner that knows your board and your grade
         </h1>
       </FadeIn>
       <FadeIn delay={0.2}>
         <p className="max-w-2xl text-lg text-muted-foreground text-balance">
           Learnova gives every CBSE, ICSE, ISC, Cambridge, or Telangana State
           Board student a personalized tutor, study planner, and practice
-          engine — trained on how their curriculum actually expects answers to
-          be written, not a generic chatbot response.
+          engine — tuned to their curriculum, grade and the way they learn
+          best, not a generic chatbot response.
         </p>
       </FadeIn>
       <FadeIn delay={0.3}>

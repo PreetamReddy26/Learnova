@@ -3,8 +3,8 @@ import { cn } from "@/lib/utils"
 
 const POINTS = [
   { icon: Users, label: "Teachers stay central — AI only supports them" },
-  { icon: ShieldCheck, label: "Every answer reviewed by curriculum experts" },
-  { icon: RefreshCw, label: "Content updated on every syllabus revision" },
+  { icon: ShieldCheck, label: "AI-generated answers — always confirm with your teacher" },
+  { icon: RefreshCw, label: "Tuned to your board, grade and learning style" },
 ]
 
 export function TrustStrip({ className }: { className?: string }) {

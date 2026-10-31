@@ -20,19 +20,19 @@ const FEATURES = [
     icon: CalendarClock,
     title: "AI Study Planner",
     description:
-      "A calendar built around your exam dates, weak chapters, and available study hours, with smart reminders to keep it on track.",
+      "An agenda for your study tasks and goals, plus a suggested plan that targets the subject where your quiz scores are lowest.",
   },
   {
     icon: ClipboardCheck,
     title: "Tests & Quizzes",
     description:
-      "Topic, chapter, and mock-exam quizzes that adapt in difficulty based on how you've performed before.",
+      "AI-generated multiple-choice and written-answer practice for your board and grade, in the length you choose, with instant feedback on written answers.",
   },
   {
     icon: BarChart3,
     title: "Performance Reports",
     description:
-      "Subject and chapter-level breakdowns of strengths, weaknesses, and improvement trends — built to motivate, not discourage.",
+      "Score trends and subject-level breakdowns of your strengths and weaker areas — built to motivate, not discourage.",
   },
   {
     icon: Compass,
@@ -44,7 +44,7 @@ const FEATURES = [
     icon: Flame,
     title: "Streaks & Achievements",
     description:
-      "XP, streaks, and badges that reward consistency, with leaderboards that stay opt-in and friend-scoped.",
+      "XP, streaks, and badges that reward consistency — personal progress first, no public rankings.",
   },
 ]
 
