@@ -5,6 +5,7 @@ import Link from "next/link"
 import { login } from "@/app/(auth)/actions"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 import { Label } from "@/components/ui/label"
 
 export function LoginForm() {
@@ -39,10 +40,9 @@ export function LoginForm() {
             Forgot password?
           </Link>
         </div>
-        <Input
+        <PasswordInput
           id="password"
           name="password"
-          type="password"
           autoComplete="current-password"
           required
         />

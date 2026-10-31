@@ -6,6 +6,8 @@ import {
   generateMCQQuiz,
   generateWrittenQuiz,
   gradeWrittenAnswer,
+  clampQuestionCount,
+  DEFAULT_QUESTION_COUNT,
 } from "@/lib/quiz-content"
 import { XP_REWARDS } from "@/lib/gamification"
 import type { Enums } from "@/lib/supabase/types"
@@ -13,6 +15,9 @@ import type { Enums } from "@/lib/supabase/types"
 export async function createQuiz(formData: FormData) {
   const subjectId = formData.get("subjectId") as string
   const quizType = formData.get("quizType") as Enums<"quiz_type">
+  const questionCount = clampQuestionCount(
+    Number(formData.get("questionCount")) || DEFAULT_QUESTION_COUNT
+  )
   const supabase = await createClient()
   const {
     data: { user },
@@ -54,7 +59,12 @@ export async function createQuiz(formData: FormData) {
   }
 
   if (quizType === "written") {
-    const questions = await generateWrittenQuiz({ subjectName, curriculum, grade })
+    const questions = await generateWrittenQuiz({
+      subjectName,
+      curriculum,
+      grade,
+      questionCount,
+    })
     const { error: questionsError } = await supabase.from("quiz_questions").insert(
       questions.map((question, index) => ({
         quiz_id: quiz.id,
@@ -65,7 +75,12 @@ export async function createQuiz(formData: FormData) {
     )
     if (questionsError) throw new Error(questionsError.message)
   } else {
-    const questions = await generateMCQQuiz({ subjectName, curriculum, grade })
+    const questions = await generateMCQQuiz({
+      subjectName,
+      curriculum,
+      grade,
+      questionCount,
+    })
     const { error: questionsError } = await supabase.from("quiz_questions").insert(
       questions.map((question, index) => ({
         quiz_id: quiz.id,

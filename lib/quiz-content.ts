@@ -19,7 +19,16 @@ export interface GradedAnswer {
 
 const MODEL = process.env.GEMINI_MODEL ?? "gemini-3.6-flash"
 const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
-const QUESTION_COUNT = 5
+
+export const QUESTION_COUNT_OPTIONS = [5, 10, 15, 20] as const
+export const DEFAULT_QUESTION_COUNT = 5
+
+export function clampQuestionCount(value: number): number {
+  const min = QUESTION_COUNT_OPTIONS[0]
+  const max = QUESTION_COUNT_OPTIONS[QUESTION_COUNT_OPTIONS.length - 1]
+  if (!Number.isFinite(value)) return DEFAULT_QUESTION_COUNT
+  return Math.min(Math.max(Math.round(value), min), max)
+}
 
 function getClient() {
   if (!process.env.GEMINI_API_KEY) return null
@@ -30,17 +39,20 @@ export async function generateMCQQuiz({
   subjectName,
   curriculum,
   grade,
+  questionCount = DEFAULT_QUESTION_COUNT,
 }: {
   subjectName: string
   curriculum: string
   grade: number | null
+  questionCount?: number
 }): Promise<GeneratedMCQQuestion[]> {
+  const count = clampQuestionCount(questionCount)
   const client = getClient()
-  if (!client) return fallbackMCQQuiz(subjectName)
+  if (!client) return fallbackMCQQuiz(subjectName, count)
 
   try {
     const prompt = [
-      `Generate exactly ${QUESTION_COUNT} multiple-choice practice questions for a student following the ${curriculum} curriculum${grade ? `, Grade ${grade}` : ""}, on the subject "${subjectName}".`,
+      `Generate exactly ${count} multiple-choice practice questions for a student following the ${curriculum} curriculum${grade ? `, Grade ${grade}` : ""}, on the subject "${subjectName}".`,
       "Match the depth, style, and terminology expected at this level and curriculum — questions should resemble what would actually appear in this board's exams or textbook.",
       "Respond with ONLY a JSON object (no markdown, no commentary) of this exact shape:",
       `{"questions": [{"prompt": string, "choices": [string, string, string, string], "correctIndex": number (0-3), "explanation": string}]}`,
@@ -60,24 +72,27 @@ export async function generateMCQQuiz({
     console.error("MCQ quiz generation failed:", error)
   }
 
-  return fallbackMCQQuiz(subjectName)
+  return fallbackMCQQuiz(subjectName, count)
 }
 
 export async function generateWrittenQuiz({
   subjectName,
   curriculum,
   grade,
+  questionCount = DEFAULT_QUESTION_COUNT,
 }: {
   subjectName: string
   curriculum: string
   grade: number | null
+  questionCount?: number
 }): Promise<GeneratedWrittenQuestion[]> {
+  const count = clampQuestionCount(questionCount)
   const client = getClient()
-  if (!client) return fallbackWrittenQuiz(subjectName)
+  if (!client) return fallbackWrittenQuiz(subjectName, count)
 
   try {
     const prompt = [
-      `Generate exactly ${QUESTION_COUNT} short-answer / descriptive practice questions for a student following the ${curriculum} curriculum${grade ? `, Grade ${grade}` : ""}, on the subject "${subjectName}".`,
+      `Generate exactly ${count} short-answer / descriptive practice questions for a student following the ${curriculum} curriculum${grade ? `, Grade ${grade}` : ""}, on the subject "${subjectName}".`,
       "These should be the kind of question-answer or short-answer questions that actually appear in this board's written exams — not multiple choice.",
       "For each question, also write a concise model answer covering the key points a full-marks answer would include.",
       "Respond with ONLY a JSON object (no markdown, no commentary) of this exact shape:",
@@ -97,7 +112,7 @@ export async function generateWrittenQuiz({
     console.error("Written quiz generation failed:", error)
   }
 
-  return fallbackWrittenQuiz(subjectName)
+  return fallbackWrittenQuiz(subjectName, count)
 }
 
 export async function gradeWrittenAnswer({
@@ -202,8 +217,8 @@ function parseWrittenQuestions(raw: string): GeneratedWrittenQuestion[] | null {
 // Falls back to fixed-shape placeholder quizzes if AI generation is
 // unavailable or returns something unusable, so the practice loop still
 // works end-to-end.
-function fallbackMCQQuiz(subjectName: string): GeneratedMCQQuestion[] {
-  return [1, 2, 3, 4, 5].map((n) => ({
+function fallbackMCQQuiz(subjectName: string, count: number): GeneratedMCQQuestion[] {
+  return Array.from({ length: count }, (_, i) => i + 1).map((n) => ({
     prompt: `Sample ${subjectName} question ${n}: which option is correct?`,
     choices: ["Option A", "Option B", "Option C", "Option D"],
     correctIndex: n % 4,
@@ -211,8 +226,8 @@ function fallbackMCQQuiz(subjectName: string): GeneratedMCQQuestion[] {
   }))
 }
 
-function fallbackWrittenQuiz(subjectName: string): GeneratedWrittenQuestion[] {
-  return [1, 2, 3, 4, 5].map((n) => ({
+function fallbackWrittenQuiz(subjectName: string, count: number): GeneratedWrittenQuestion[] {
+  return Array.from({ length: count }, (_, i) => i + 1).map((n) => ({
     prompt: `Sample ${subjectName} written question ${n}: explain the key concept in your own words.`,
     modelAnswer: `Placeholder model answer for ${subjectName} question ${n}, pending AI-generated content.`,
   }))

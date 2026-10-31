@@ -2,6 +2,7 @@ import type { ReactNode } from "react"
 import { redirect } from "next/navigation"
 import { LogoutButton } from "@/components/auth/logout-button"
 import { SidebarNav } from "@/components/student/sidebar-nav"
+import { FeedbackWidget } from "@/components/feedback/feedback-widget"
 import { createClient } from "@/lib/supabase/server"
 import { ROLE_HOME } from "@/lib/roles"
 
@@ -51,6 +52,7 @@ export default async function StudentLayout({
         <LogoutButton className="mt-2 px-2 py-1.5 text-left" />
       </aside>
       <main className="flex flex-1 flex-col">{children}</main>
+      <FeedbackWidget />
     </div>
   )
 }

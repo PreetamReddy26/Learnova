@@ -38,7 +38,7 @@ export default async function PlannerPage() {
     await Promise.all([
       supabase
         .from("profiles")
-        .select("curriculum_id")
+        .select("curriculum_id, grade")
         .eq("id", user!.id)
         .single(),
       supabase
@@ -53,13 +53,17 @@ export default async function PlannerPage() {
         .order("created_at", { ascending: false }),
     ])
 
-  const { data: subjects } = profile?.curriculum_id
-    ? await supabase
-        .from("subjects")
-        .select("id, name")
-        .eq("curriculum_id", profile.curriculum_id)
-        .order("name")
-    : { data: [] }
+  const { data: subjects } = await (async () => {
+    if (!profile?.curriculum_id) return { data: [] }
+    let query = supabase
+      .from("subjects")
+      .select("id, name")
+      .eq("curriculum_id", profile.curriculum_id)
+    if (profile.grade) {
+      query = query.lte("grade_min", profile.grade).gte("grade_max", profile.grade)
+    }
+    return query.order("name")
+  })()
 
   const subjectItems = Object.fromEntries(
     (subjects ?? []).map((subject) => [subject.id, subject.name])

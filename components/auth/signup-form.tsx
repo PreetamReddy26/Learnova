@@ -5,6 +5,7 @@ import Link from "next/link"
 import { signup } from "@/app/(auth)/actions"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 
@@ -101,10 +102,9 @@ export function SignupForm() {
       </div>
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="password">Password</Label>
-        <Input
+        <PasswordInput
           id="password"
           name="password"
-          type="password"
           autoComplete="new-password"
           required
         />

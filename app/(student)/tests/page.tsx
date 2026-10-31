@@ -1,9 +1,7 @@
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/server"
-import { Card, CardContent } from "@/components/ui/card"
 import { EmptyState } from "@/components/empty-state"
-import { StartQuizButton } from "@/components/tests/start-quiz-button"
-import { createQuiz } from "@/app/(student)/tests/actions"
+import { QuizStartCard } from "@/components/tests/quiz-start-card"
 
 export default async function TestsPage() {
   const supabase = await createClient()
@@ -13,17 +11,22 @@ export default async function TestsPage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("curriculum_id")
+    .select("curriculum_id, grade")
     .eq("id", user!.id)
     .single()
 
   const [{ data: subjects }, { data: attempts }] = await Promise.all([
     profile?.curriculum_id
-      ? supabase
-          .from("subjects")
-          .select("id, name")
-          .eq("curriculum_id", profile.curriculum_id)
-          .order("name")
+      ? (() => {
+          let query = supabase
+            .from("subjects")
+            .select("id, name")
+            .eq("curriculum_id", profile.curriculum_id)
+          if (profile.grade) {
+            query = query.lte("grade_min", profile.grade).gte("grade_max", profile.grade)
+          }
+          return query.order("name")
+        })()
       : Promise.resolve({ data: [] }),
     supabase
       .from("quiz_attempts")
@@ -49,25 +52,11 @@ export default async function TestsPage() {
         {subjects && subjects.length > 0 ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {subjects.map((subject) => (
-              <Card key={subject.id}>
-                <CardContent className="flex flex-col gap-3">
-                  <span className="font-medium text-foreground">
-                    {subject.name}
-                  </span>
-                  <div className="flex flex-col gap-2 sm:flex-row">
-                    <form action={createQuiz} className="flex-1">
-                      <input type="hidden" name="subjectId" value={subject.id} />
-                      <input type="hidden" name="quizType" value="mcq" />
-                      <StartQuizButton label="Multiple choice" />
-                    </form>
-                    <form action={createQuiz} className="flex-1">
-                      <input type="hidden" name="subjectId" value={subject.id} />
-                      <input type="hidden" name="quizType" value="written" />
-                      <StartQuizButton label="Written answer" />
-                    </form>
-                  </div>
-                </CardContent>
-              </Card>
+              <QuizStartCard
+                key={subject.id}
+                subjectId={subject.id}
+                subjectName={subject.name}
+              />
             ))}
           </div>
         ) : (

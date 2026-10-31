@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.17"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -168,6 +168,44 @@ export type Database = {
         }
         Relationships: []
       }
+      feedback: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          page_path: string | null
+          rating: number | null
+          role: Database["public"]["Enums"]["user_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          page_path?: string | null
+          rating?: number | null
+          role: Database["public"]["Enums"]["user_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          page_path?: string | null
+          rating?: number | null
+          role?: Database["public"]["Enums"]["user_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feedback_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       goals: {
         Row: {
           created_at: string
@@ -289,6 +327,7 @@ export type Database = {
           grade: number | null
           id: string
           invite_code: string
+          is_admin: boolean
           learning_style: Database["public"]["Enums"]["learning_style"] | null
           phone: string | null
           profession: string | null
@@ -310,6 +349,7 @@ export type Database = {
           grade?: number | null
           id: string
           invite_code: string
+          is_admin?: boolean
           learning_style?: Database["public"]["Enums"]["learning_style"] | null
           phone?: string | null
           profession?: string | null
@@ -331,6 +371,7 @@ export type Database = {
           grade?: number | null
           id?: string
           invite_code?: string
+          is_admin?: boolean
           learning_style?: Database["public"]["Enums"]["learning_style"] | null
           phone?: string | null
           profession?: string | null

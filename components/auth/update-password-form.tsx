@@ -5,7 +5,7 @@ import Link from "next/link"
 import { updatePassword } from "@/app/(auth)/actions"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { PasswordInput } from "@/components/ui/password-input"
 import { Label } from "@/components/ui/label"
 
 export function UpdatePasswordForm() {
@@ -63,10 +63,9 @@ export function UpdatePasswordForm() {
     <form action={action} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="password">New password</Label>
-        <Input
+        <PasswordInput
           id="password"
           name="password"
-          type="password"
           autoComplete="new-password"
           required
         />
@@ -76,10 +75,9 @@ export function UpdatePasswordForm() {
       </div>
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="confirmPassword">Confirm new password</Label>
-        <Input
+        <PasswordInput
           id="confirmPassword"
           name="confirmPassword"
-          type="password"
           autoComplete="new-password"
           required
         />

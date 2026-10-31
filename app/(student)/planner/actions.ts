@@ -108,14 +108,20 @@ export async function generateSmartPlan() {
   if (!weakestSubject) {
     const { data: profile } = await supabase
       .from("profiles")
-      .select("curriculum_id")
+      .select("curriculum_id, grade")
       .eq("id", user.id)
       .single()
 
-    const { data: fallbackSubject } = await supabase
+    let fallbackQuery = supabase
       .from("subjects")
       .select("id, name")
       .eq("curriculum_id", profile?.curriculum_id ?? "")
+    if (profile?.grade) {
+      fallbackQuery = fallbackQuery
+        .lte("grade_min", profile.grade)
+        .gte("grade_max", profile.grade)
+    }
+    const { data: fallbackSubject } = await fallbackQuery
       .order("name")
       .limit(1)
       .maybeSingle()
